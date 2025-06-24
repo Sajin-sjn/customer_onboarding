@@ -1,15 +1,13 @@
 package com.acabes.bank.customer_onboarding.controllers;
 
+import com.acabes.bank.customer_onboarding.DTOs.CustomerDTO;
 import com.acabes.bank.customer_onboarding.entities.Customer;
-import com.acabes.bank.customer_onboarding.entities.CustomerAddress;
 import com.acabes.bank.customer_onboarding.services.CustomerService;
-import org.springframework.data.annotation.Id;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -23,9 +21,10 @@ public class CustomerController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity< Map<String, Customer>> addCustomer(@RequestBody Customer customer){
+    public ResponseEntity< Map<String, CustomerDTO>> addCustomer(@RequestBody Customer customer){
         Customer savedCustomer = customerService.createCustomer(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("New Customer Created", savedCustomer));
+        CustomerDTO savedCustomerDTO = new CustomerDTO(customer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("New Customer Created", savedCustomerDTO));
     }
 
     @GetMapping("/{customerId}")
@@ -35,6 +34,7 @@ public class CustomerController {
         if (customer == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("Customer", "No Customer Found"));
         }
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("Customer", customer));
+        CustomerDTO customerDTO = new CustomerDTO(customer);
+        return ResponseEntity.status(HttpStatus.OK).body(Map.of("Customer", customerDTO));
     }
 }
