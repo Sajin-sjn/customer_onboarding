@@ -1,11 +1,8 @@
 package com.acabes.bank.customer_onboarding.DTOs;
 
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
+@Data
 public class AuthenticationDTO {
-    @Getter @Setter
-    private String customerId;
-    @Getter @Setter
+    private String customerPhone;
     private String password;
 }

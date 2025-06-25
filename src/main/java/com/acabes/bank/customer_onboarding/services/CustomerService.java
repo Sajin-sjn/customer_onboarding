@@ -5,6 +5,7 @@ import com.acabes.bank.customer_onboarding.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.List;
 
 @Service
 public class CustomerService  {
@@ -37,8 +38,18 @@ public class CustomerService  {
         return customerRepository.save(customer);
     }
 
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
+
     public Customer getCustomer(String id){
         return customerRepository.findById(id).orElse(null);
     }
+
+    public Customer getCustomerByPhoneNumber(String phoneNumber){
+        return customerRepository.findByCustomerPhone(phoneNumber).orElse(null);
+    }
+
+
 
 }
