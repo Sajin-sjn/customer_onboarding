@@ -36,6 +36,7 @@ public class AuthenticationService {
         // If given password does not match the password of customer from DB return Invalid Credentials
         // Authentication Failed
         else {
+            log.info("Invalid Password");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials");
         }
     }

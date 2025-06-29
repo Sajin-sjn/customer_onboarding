@@ -31,14 +31,17 @@ public class CustomerController {
         try{
 
             if( customerService.getCustomerByPhoneNumber(customer.getCustomerPhone()) != null){
+                log.info("Customer already exists in this customer");
                 return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "Duplicate Phone Number"));
             }
 
             Customer savedCustomer = customerService.createCustomer(customer);
             CustomerDTO savedCustomerDTO = new CustomerDTO(customer);
+            log.info("Customer created successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("New Customer Created", savedCustomerDTO));
 
         }  catch (Exception e) {
+            log.error("Error while saving customer",e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("Message", "Something went wrong"));
         }
     }
@@ -48,6 +51,7 @@ public class CustomerController {
         try{
             List<Customer> customers = customerService.getAllCustomers();
             if (customers == null || customers.isEmpty()){
+                log.info("No customers found");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "No Customer Data Found"));
             }
             List<CustomerDTO> customerDTOs = new ArrayList<>();
@@ -56,10 +60,12 @@ public class CustomerController {
                 customerDTOs.add(customerDTO);
             }
 
+            log.info("Customers found");
             System.out.println(customerDTOs + "////////////////////");
 
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("Customers", customerDTOs));
         } catch (Exception e) {
+            log.error("Error while getting all customers", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("Message", "Something went wrong"));
         }
     }
@@ -68,13 +74,17 @@ public class CustomerController {
     public ResponseEntity<Map<String, Object>> getCustomer(@PathVariable String customerId){
         try{
             System.out.println("Received Customer Id: " + customerId);
+            log.info("Received Customer Id: " + customerId);
             Customer customer = customerService.getCustomer(customerId);
             if (customer == null){
+                log.info("Customer not found");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "No Customer Found"));
             }
             CustomerDTO customerDTO = new CustomerDTO(customer);
+            log.info("Customer found successfully");
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("Customer", customerDTO));
         } catch (Exception e) {
+            log.error("Error while getting customer", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("Message", "Something went wrong"));
         }
     }
@@ -83,9 +93,11 @@ public class CustomerController {
     public ResponseEntity<Map<String, Object>> getByphone(@PathVariable String phone){
         Customer customer = customerService.getCustomerByPhoneNumber(phone);
         if(customer == null){
+            log.info("Customer not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "No Customer Found"));
         } else {
             CustomerDTO customerDTO = new CustomerDTO(customer);
+            log.info("Customer found successfully");
             return ResponseEntity.status(HttpStatus.OK).body(Map.of("Customer", customerDTO));
         }
     }

@@ -6,15 +6,14 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.stereotype.Component;
 
+// Entity for customer address
+
 @Component
 @ToString
 @Data
 public class CustomerAddress {
     private String city;
-
     private String state;
-
     private String country;
-
     private String pincode;
 }

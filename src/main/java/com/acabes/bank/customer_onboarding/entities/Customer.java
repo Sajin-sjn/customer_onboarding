@@ -21,28 +21,16 @@ public class Customer {
 
     @Id
     private String customerId;
-
     private  String customerName;
-
     private  String customerDOB;
-
     private  String customerGender;
-
     private  String customerEmail;
-
     @Indexed(unique = true)
     private  String customerPhone;
-
     private  CustomerAddress customerAddress;
-
     private  String nationality;
-
     private BigDecimal customerIncome;
-
     private  String customerPanNumber;
-
     private  String customerAadharNumber;
-
     private  String password;
-
 }
